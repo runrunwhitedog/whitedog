@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>손맛분식 - 꼬마 대장님의 분식집 안내서</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Jua & Nanum Gothic -->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+        .font-jua {
+            font-family: 'Jua', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fffbeb;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fde047;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #facc15;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-amber-100 via-orange-100 to-yellow-100 min-h-screen flex flex-col items-center justify-between text-gray-800">
+
+    <!-- Header -->
+    <header class="w-full max-w-md bg-white/90 backdrop-blur-md shadow-md border-b-4 border-orange-300 sticky top-0 z-10 px-5 py-4 flex items-center justify-between rounded-b-3xl">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-orange-400 rounded-2xl flex items-center justify-center text-2xl shadow-md rotate-[-6deg] animate-float">
+                🥟
+            </div>
+            <div>
+                <h1 class="text-2xl font-jua text-orange-600 tracking-wide flex items-center gap-1">
+                    손맛분식 <span class="text-xs bg-yellow-300 text-orange-800 px-2 py-0.5 rounded-full font-bold">키즈존✨</span>
+                </h1>
+                <p class="text-xs font-bold text-gray-500">달빛시장 3번 골목 꼬마 맛집</p>
+            </div>
+        </div>
+        <div class="text-right">
+            <span class="inline-block bg-orange-500 text-white text-xs px-3 py-1.5 rounded-2xl font-jua shadow-sm">
+                🕒 평일 10~20시
+            </span>
+        </div>
+    </header>
+
+    <!-- Chat Container -->
+    <main id="chat-container" class="w-full max-w-md flex-1 overflow-y-auto px-4 py-6 space-y-4 flex flex-col">
+        <!-- Welcome Message -->
+        <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-400 to-amber-400 text-white flex items-center justify-center text-lg font-jua shadow-lg shrink-0 border-2 border-white">
+                🐰
+            </div>
+            <div class="bg-white p-4 rounded-3xl rounded-tl-sm shadow-md border-2 border-orange-200 max-w-[80%] text-sm leading-relaxed">
+                <p class="font-jua text-base text-orange-600 mb-1">안녕 친구들! 반가워요! 🎉</p>
+                <p class="font-medium text-gray-700">손맛분식에 대해 궁금한 점이 있나요? 아래 버튼을 누르거나 무엇이든 물어보세요!</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Quick FAQ Buttons -->
+    <div class="w-full max-w-md px-4 pb-2">
+        <p class="text-xs font-jua text-orange-700 mb-2 px-1 flex items-center gap-1">
+            <span>💡</span> 우리 친구들이 자주 묻는 질문이에요!
+        </p>
+        <div id="quick-buttons" class="grid grid-cols-2 gap-2">
+            <button onclick="askQuestion('영업시간이 어떻게 되나요?')" class="bg-white hover:bg-orange-50 text-orange-700 border-2 border-orange-200 text-xs py-2.5 px-3 rounded-2xl font-jua transition shadow-sm text-left truncate flex items-center gap-1.5">
+                <span>⏰</span> 영업시간 안내
+            </button>
+            <button onclick="askQuestion('포장 되나요?')" class="bg-white hover:bg-orange-50 text-orange-700 border-2 border-orange-200 text-xs py-2.5 px-3 rounded-2xl font-jua transition shadow-sm text-left truncate flex items-center gap-1.5">
+                <span>🎁</span> 포장 가능한가요?
+            </button>
+            <button onclick="askQuestion('가게 위치가 어디예요?')" class="bg-white hover:bg-orange-50 text-orange-700 border-2 border-orange-200 text-xs py-2.5 px-3 rounded-2xl font-jua transition shadow-sm text-left truncate flex items-center gap-1.5">
+                <span>🗺️</span> 위치/주차 안내
+            </button>
+            <button onclick="askQuestion('대표 메뉴가 뭐예요?')" class="bg-white hover:bg-orange-50 text-orange-700 border-2 border-orange-200 text-xs py-2.5 px-3 rounded-2xl font-jua transition shadow-sm text-left truncate flex items-center gap-1.5">
+                <span>😋</span> 대표 메뉴 추천
+            </button>
+        </div>
+    </div>
+
+    <!-- Input Bar -->
+    <footer class="w-full max-w-md bg-white/90 backdrop-blur-md border-t-4 border-orange-200 p-3 shadow-xl sticky bottom-0 rounded-t-3xl">
+        <form id="chat-form" onsubmit="handleSubmit(event)" class="flex items-center gap-2">
+            <input 
+                type="text" 
+                id="user-input" 
+                placeholder="궁금한 걸 물어보세요 (예: 일요일에 열어요?)" 
+                class="flex-1 bg-amber-50/70 border-2 border-orange-200 rounded-2xl px-4 py-3 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-orange-300 focus:bg-white transition text-gray-700 placeholder-gray-400"
+                autocomplete="off"
+            >
+            <button 
+                type="submit" 
+                class="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white px-5 py-3 rounded-2xl font-jua text-sm shadow-md transition flex items-center justify-center shrink-0 border-2 border-orange-300 active:scale-95">
+                보내기 ✨
+            </button>
+        </form>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // FAQ Database (10 exact FAQ items)
+        const faqDatabase = [
+            {
+                keywords: ["몇시", "언제까지", "영업시간", "문", "시간", "마감", "오픈", "열어"],
+                answer: "평일은 10시부터 20시까지, 토요일은 21시까지입니다. 일요일은 쉽니다."
+            },
+            {
+                keywords: ["휴무", "쉬는날", "일요일", "쉬나요", "휴일"],
+                answer: "일요일은 정기 휴무입니다. 평일과 토요일에 방문해주세요!"
+            },
+            {
+                keywords: ["위치", "어디", "찾아", "주소", "골목", "시장", "달빛"],
+                answer: "달빛시장 3번 골목 안쪽에 위치해 있습니다."
+            },
+            {
+                keywords: ["포장", "싸가지", "테이크아웃", "싸", "용기"],
+                answer: "모든 메뉴 포장 가능합니다! 오시기 미리 전화주시면 더 빠르게 준비해드려요."
+            },
+            {
+                keywords: ["메뉴", "음식", "판", "떡볶이", "튀김", "김밥", "뭐가", "추천"],
+                answer: "매콤달콤 쌀떡볶이, 바삭한 수제 모듬튀김, 속이 꽉 찬 손맛김밥이 대표 메뉴입니다."
+            },
+            {
+                keywords: ["주차", "차", "차량", "주차장"],
+                answer: "달빛시장 공영주차장을 이용하시면 편리합니다."
+            },
+            {
+                keywords: ["전화", "번호", "연락처", "문의"],
+                answer: "가게 전화번호는 달빛시장 상인회 안내를 통해 확인하실 수 있습니다."
+            },
+            {
+                keywords: ["배달", "배달앱", "배민", "요기요", "쿠팡"],
+                answer: "현재 배달앱 서비스는 따로 운영하고 있지 않으며, 매장 방문 및 포장만 가능합니다."
+            },
+            {
+                keywords: ["예약", "단체", "자리", "테이블"],
+                answer: "매장 테이블이 아담하여 단체 예약은 받고 있지 않습니다. 양해 부탁드립니다!"
+            },
+            {
+                keywords: ["카드", "현금", "결제", "온누리", "상품권", "제로페이"],
+                answer: "신용카드 결제 및 온누리상품권, 제로페이 모두 사용 가능합니다."
+            }
+        ];
+
+        const fallbackMessage = "확인이 어렵습니다. 사장님께 직접 여쭤봐주세요";
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const inputField = document.getElementById('user-input');
+            const query = inputField.value.trim();
+            
+            if (!query) return;
+
+            // Add user message
+            appendMessage(query, 'user');
+            inputField.value = '';
+
+            // Simulate slight thinking delay
+            setTimeout(() => {
+                const answer = findBestAnswer(query);
+                appendMessage(answer, 'bot');
+            }, 300);
+        }
+
+        function askQuestion(questionText) {
+            document.getElementById('user-input').value = questionText;
+            const event = new Event('submit', { cancelable: true });
+            document.getElementById('chat-form').dispatchEvent(event);
+        }
+
+        function findBestAnswer(query) {
+            let bestMatch = null;
+            let maxScore = 0;
+
+            const normalizedQuery = query.toLowerCase();
+
+            for (let faq of faqDatabase) {
+                let score = 0;
+                for (let keyword of faq.keywords) {
+                    if (normalizedQuery.includes(keyword)) {
+                        score += keyword.length;
+                    }
+                }
+                if (score > maxScore) {
+                    maxScore = score;
+                    bestMatch = faq.answer;
+                }
+            }
+
+            if (maxScore === 0 || !bestMatch) {
+                return fallbackMessage;
+            }
+
+            return bestMatch;
+        }
+
+        function appendMessage(text, sender) {
+            const container = document.getElementById('chat-container');
+            const messageDiv = document.createElement('div');
+
+            if (sender === 'user') {
+                messageDiv.className = 'flex items-start justify-end gap-3';
+                messageDiv.innerHTML = `
+                    <div class="bg-gradient-to-r from-orange-500 to-amber-500 text-white p-4 rounded-3xl rounded-tr-sm shadow-md max-w-[80%] text-sm leading-relaxed border-2 border-orange-300 font-medium">
+                        <p>${escapeHtml(text)}</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-2xl bg-amber-400 text-white flex items-center justify-center text-lg font-jua shadow-lg shrink-0 border-2 border-white">
+                        👶
+                    </div>
+                `;
+            } else {
+                messageDiv.className = 'flex items-start gap-3';
+                messageDiv.innerHTML = `
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-400 to-amber-400 text-white flex items-center justify-center text-lg font-jua shadow-lg shrink-0 border-2 border-white">
+                        🐰
+                    </div>
+                    <div class="bg-white p-4 rounded-3xl rounded-tl-sm shadow-md border-2 border-orange-200 max-w-[80%] text-sm leading-relaxed font-medium text-gray-700">
+                        <p>${escapeHtml(text)}</p>
+                    </div>
+                `;
+            }
+
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function escapeHtml(string) {
+            return string.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
